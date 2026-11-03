@@ -90,3 +90,36 @@ setInterval(function () {
     showSlide(currentSlide + 1);
 
 }, 5000);
+
+
+
+// Newsletter Subscription
+
+const newsletterForm = document.getElementById("newsletterForm");
+
+newsletterForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("emailInput").value;
+
+    alert("Thank you for subscribing to Velora Fashion!");
+
+    newsletterForm.reset();
+
+});
+
+
+// Contact Form
+
+const contactForm = document.querySelector(".contact-form");
+
+contactForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    alert("Thank you for contacting Velora Fashion!");
+
+    contactForm.reset();
+
+});
