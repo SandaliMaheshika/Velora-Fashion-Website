@@ -123,3 +123,133 @@ contactForm.addEventListener("submit", function (event) {
     contactForm.reset();
 
 });
+
+// Product Details
+
+const productButtons = document.querySelectorAll(".product-btn");
+
+const productModal = document.getElementById("productModal");
+
+const closeModal = document.getElementById("closeModal");
+
+const mainProductImage = document.getElementById("mainProductImage");
+
+const thumbnailContainer = document.getElementById("thumbnailContainer");
+
+const modalProductName = document.getElementById("modalProductName");
+
+const modalProductPrice = document.getElementById("modalProductPrice");
+
+const modalProductDescription = document.getElementById("modalProductDescription");
+
+
+// Open Product Details
+
+productButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const productCard = button.closest(".product-card");
+
+        const productName = productCard.querySelector("h3").textContent;
+
+        const productPrice = productCard.querySelector(".product-info p").textContent;
+
+        const productDescription = button.dataset.description;
+
+        const images = button.dataset.images.split(",");
+
+
+        // Set Product Details
+
+        modalProductName.textContent = productName;
+
+        modalProductPrice.textContent = productPrice;
+
+        modalProductDescription.textContent = productDescription;
+
+        // Main Image
+
+        mainProductImage.src = images[0];
+
+
+        // Clear Previous Thumbnails
+
+        thumbnailContainer.innerHTML = "";
+
+
+        // Create Thumbnails
+
+        images.forEach(function (image) {
+
+            const thumbnail = document.createElement("img");
+
+            thumbnail.src = image;
+
+            thumbnail.addEventListener("click", function () {
+
+                mainProductImage.src = image;
+
+            });
+
+            thumbnailContainer.appendChild(thumbnail);
+
+        });
+
+
+        // Show Modal
+
+        productModal.classList.add("active");
+
+        document.body.style.overflow = "hidden";
+
+    });
+
+});
+
+
+// Close Modal
+
+closeModal.addEventListener("click", function () {
+
+    productModal.classList.remove("active");
+
+    document.body.style.overflow = "auto";
+
+});
+
+
+// Close When Clicking Outside
+
+productModal.addEventListener("click", function (event) {
+
+    if (event.target === productModal) {
+
+        productModal.classList.remove("active");
+
+        document.body.style.overflow = "auto";
+
+    }
+
+});
+
+
+// Add To Bag
+
+const addToBag = document.getElementById("addToBag");
+
+const productSize = document.getElementById("productSize");
+
+addToBag.addEventListener("click", function () {
+
+    if (productSize.value === "") {
+
+        alert("Please select your dress size!");
+
+        return;
+
+    }
+
+    alert("Product added to bag successfully!");
+
+});
