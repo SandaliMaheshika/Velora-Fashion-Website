@@ -378,7 +378,7 @@ body {
 .section-heading {
     text-align: center;
     margin-bottom: 45px;
-    padding: 70px;
+    padding: 7px;
 }
 
 .section-heading p {
@@ -467,7 +467,7 @@ body {
 .product-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
+    gap: 50px;
     padding: 50px;
 }
 
@@ -1131,4 +1131,13 @@ body {
 .dropdown-menu a:hover {
     background-color: #F1F1EE;
     color: #888;
+}
+
+
+.dress {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 100px;
+    padding: 50px;
+    
 }
