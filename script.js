@@ -3,11 +3,16 @@
 const menuBtn = document.getElementById("menuBtn");
 const navbar = document.getElementById("navbar");
 
-menuBtn.addEventListener("click", function () {
+if (menuBtn && navbar) {
 
-    navbar.classList.toggle("active");
+    menuBtn.addEventListener("click", function () {
 
-});
+        navbar.classList.toggle("active");
+
+    });
+
+}
+
 
 // Fashion Image Slider
 
@@ -20,28 +25,108 @@ const sliderDots = document.getElementById("sliderDots");
 
 let currentSlide = 0;
 
+let dots = [];
+
 
 // Create Slider Dots
 
-slides.forEach(function (slide, index) {
+if (slides.length > 0 && sliderDots) {
 
-    const dot = document.createElement("span");
+    slides.forEach(function (slide, index) {
 
-    dot.classList.add("dot");
+        const dot = document.createElement("span");
 
-    if (index === 0) {
-        dot.classList.add("active");
-    }
+        dot.classList.add("dot");
 
-    dot.addEventListener("click", function () {
-        showSlide(index);
+        if (index === 0) {
+            dot.classList.add("active");
+        }
+
+        dot.addEventListener("click", function () {
+
+            showSlide(index);
+
+        });
+
+        sliderDots.appendChild(dot);
+
     });
 
-    sliderDots.appendChild(dot);
+    dots = sliderDots.querySelectorAll(".dot");
 
-});
+}
 
-const dots = document.querySelectorAll(".dot");
+
+// Show Slide
+
+function showSlide(index) {
+
+    if (slides.length === 0) {
+        return;
+    }
+
+    slides.forEach(function (slide) {
+
+        slide.classList.remove("active");
+
+    });
+
+    dots.forEach(function (dot) {
+
+        dot.classList.remove("active");
+
+    });
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add("active");
+
+    if (dots[currentSlide]) {
+
+        dots[currentSlide].classList.add("active");
+
+    }
+
+}
+
+
+// Next Button
+
+if (nextBtn) {
+
+    nextBtn.addEventListener("click", function () {
+
+        showSlide(currentSlide + 1);
+
+    });
+
+}
+
+
+// Previous Button
+
+if (prevBtn) {
+
+    prevBtn.addEventListener("click", function () {
+
+        showSlide(currentSlide - 1);
+
+    });
+
+}
+
+
+// Automatic Slider
+
+if (slides.length > 0) {
+
+    setInterval(function () {
+
+        showSlide(currentSlide + 1);
+
+    }, 5000);
+
+}
 
 
 // Collections Dropdown Menu
@@ -50,107 +135,67 @@ const collectionBtn = document.getElementById("collectionBtn");
 
 const dropdownMenu = document.getElementById("dropdownMenu");
 
+if (collectionBtn && dropdownMenu) {
 
-collectionBtn.addEventListener("click", function (event) {
+    collectionBtn.addEventListener("click", function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    dropdownMenu.classList.toggle("active");
+        dropdownMenu.classList.toggle("active");
 
-});
-
-
-// Close menu when clicking outside
-
-document.addEventListener("click", function (event) {
-
-    if (!event.target.closest(".dropdown")) {
-
-        dropdownMenu.classList.remove("active");
-
-    }
-
-});
-
-// Show Slide
-
-function showSlide(index) {
-
-    slides.forEach(function (slide) {
-        slide.classList.remove("active");
     });
 
-    dots.forEach(function (dot) {
-        dot.classList.remove("active");
+
+    document.addEventListener("click", function (event) {
+
+        if (!event.target.closest(".dropdown")) {
+
+            dropdownMenu.classList.remove("active");
+
+        }
+
     });
-
-    currentSlide = (index + slides.length) % slides.length;
-
-    slides[currentSlide].classList.add("active");
-
-    dots[currentSlide].classList.add("active");
 
 }
-
-
-// Next Button
-
-nextBtn.addEventListener("click", function () {
-
-    showSlide(currentSlide + 1);
-
-});
-
-
-// Previous Button
-
-prevBtn.addEventListener("click", function () {
-
-    showSlide(currentSlide - 1);
-
-});
-
-
-// Automatic Change Every 5 Seconds
-
-setInterval(function () {
-
-    showSlide(currentSlide + 1);
-
-}, 5000);
-
 
 
 // Newsletter Subscription
 
 const newsletterForm = document.getElementById("newsletterForm");
 
-newsletterForm.addEventListener("submit", function (event) {
+if (newsletterForm) {
 
-    event.preventDefault();
+    newsletterForm.addEventListener("submit", function (event) {
 
-    const email = document.getElementById("emailInput").value;
+        event.preventDefault();
 
-    alert("Thank you for subscribing to Velora Fashion!");
+        alert("Thank you for subscribing to Velora Fashion!");
 
-    newsletterForm.reset();
+        newsletterForm.reset();
 
-});
+    });
+
+}
 
 
 // Contact Form
 
 const contactForm = document.querySelector(".contact-form");
 
-contactForm.addEventListener("submit", function (event) {
+if (contactForm) {
 
-    event.preventDefault();
+    contactForm.addEventListener("submit", function (event) {
 
-    alert("Thank you for contacting Velora Fashion!");
+        event.preventDefault();
 
-    contactForm.reset();
+        alert("Thank you for contacting Velora Fashion!");
 
-});
+        contactForm.reset();
+
+    });
+
+}
+
 
 // Product Details
 
@@ -173,93 +218,110 @@ const modalProductDescription = document.getElementById("modalProductDescription
 
 // Open Product Details
 
-productButtons.forEach(function (button) {
+if (
+    productModal &&
+    closeModal &&
+    mainProductImage &&
+    thumbnailContainer &&
+    modalProductName &&
+    modalProductPrice &&
+    modalProductDescription
+) {
 
-    button.addEventListener("click", function () {
+    productButtons.forEach(function (button) {
 
-        const productCard = button.closest(".product-card");
+        button.addEventListener("click", function () {
 
-        const productName = productCard.querySelector("h3").textContent;
+            const productCard = button.closest(".product-card");
 
-        const productPrice = productCard.querySelector(".product-info p").textContent;
+            const productName = productCard.querySelector("h3").textContent;
 
-        const productDescription = button.dataset.description;
+            const productPrice = productCard.querySelector(".product-info p").textContent;
 
-        const images = button.dataset.images.split(",");
+            const productDescription = button.dataset.description;
 
+            const images = button.dataset.images.split(",").map(function (image) {
 
-        // Set Product Details
-
-        modalProductName.textContent = productName;
-
-        modalProductPrice.textContent = productPrice;
-
-        modalProductDescription.textContent = productDescription;
-
-        // Main Image
-
-        mainProductImage.src = images[0];
-
-
-        // Clear Previous Thumbnails
-
-        thumbnailContainer.innerHTML = "";
-
-
-        // Create Thumbnails
-
-        images.forEach(function (image) {
-
-            const thumbnail = document.createElement("img");
-
-            thumbnail.src = image;
-
-            thumbnail.addEventListener("click", function () {
-
-                mainProductImage.src = image;
+                return image.trim();
 
             });
 
-            thumbnailContainer.appendChild(thumbnail);
+
+            // Set Product Details
+
+            modalProductName.textContent = productName;
+
+            modalProductPrice.textContent = productPrice;
+
+            modalProductDescription.textContent = productDescription;
+
+
+            // Main Image
+
+            mainProductImage.src = images[0];
+
+
+            // Clear Previous Thumbnails
+
+            thumbnailContainer.innerHTML = "";
+
+
+            // Create Thumbnails
+
+            images.forEach(function (image) {
+
+                const thumbnail = document.createElement("img");
+
+                thumbnail.src = image;
+
+                thumbnail.addEventListener("click", function () {
+
+                    mainProductImage.src = image;
+
+                });
+
+                thumbnailContainer.appendChild(thumbnail);
+
+            });
+
+
+            // Show Modal
+
+            productModal.classList.add("active");
+
+            document.body.style.overflow = "hidden";
 
         });
 
-
-        // Show Modal
-
-        productModal.classList.add("active");
-
-        document.body.style.overflow = "hidden";
-
     });
 
-});
 
+    // Close Modal
 
-// Close Modal
-
-closeModal.addEventListener("click", function () {
-
-    productModal.classList.remove("active");
-
-    document.body.style.overflow = "auto";
-
-});
-
-
-// Close When Clicking Outside
-
-productModal.addEventListener("click", function (event) {
-
-    if (event.target === productModal) {
+    closeModal.addEventListener("click", function () {
 
         productModal.classList.remove("active");
 
         document.body.style.overflow = "auto";
 
-    }
+    });
 
-});
+
+    // Close When Clicking Outside
+
+    productModal.addEventListener("click", function (event) {
+
+        if (event.target === productModal) {
+
+            productModal.classList.remove("active");
+
+            document.body.style.overflow = "auto";
+
+        }
+
+    });
+
+}
 
 
 // Add To Bag
@@ -268,16 +330,20 @@ const addToBag = document.getElementById("addToBag");
 
 const productSize = document.getElementById("productSize");
 
-addToBag.addEventListener("click", function () {
+if (addToBag && productSize) {
 
-    if (productSize.value === "") {
+    addToBag.addEventListener("click", function () {
 
-        alert("Please select your dress size!");
+        if (productSize.value === "") {
 
-        return;
+            alert("Please select your dress size!");
 
-    }
+            return;
 
-    alert("Product added to bag successfully!");
+        }
 
-});
+        alert("Product added to bag successfully!");
+
+    });
+
+}
