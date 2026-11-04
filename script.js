@@ -44,6 +44,34 @@ slides.forEach(function (slide, index) {
 const dots = document.querySelectorAll(".dot");
 
 
+// Collections Dropdown Menu
+
+const collectionBtn = document.getElementById("collectionBtn");
+
+const dropdownMenu = document.getElementById("dropdownMenu");
+
+
+collectionBtn.addEventListener("click", function (event) {
+
+    event.preventDefault();
+
+    dropdownMenu.classList.toggle("active");
+
+});
+
+
+// Close menu when clicking outside
+
+document.addEventListener("click", function (event) {
+
+    if (!event.target.closest(".dropdown")) {
+
+        dropdownMenu.classList.remove("active");
+
+    }
+
+});
+
 // Show Slide
 
 function showSlide(index) {

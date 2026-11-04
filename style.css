@@ -217,6 +217,7 @@ body {
 .hero {
     width: 100%;
     padding: 15px 3%;
+    background-color: white;
 }
 
 .slider {
@@ -594,7 +595,7 @@ body {
 
 .offer-section {
     min-height: 400px;
-    background: white;
+    background: #F1F1EE;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1079,4 +1080,55 @@ body {
         font-size: 25px;
     }
 
+}
+
+/* Collections Dropdown */
+
+.dropdown {
+    position: relative;
+}
+
+.collection-link {
+    display: block;
+}
+
+.dropdown-menu {
+    display: none;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 220px;
+
+    background-color: #FFFFFF;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+
+    padding: 12px 0;
+
+    z-index: 2000;
+}
+
+.dropdown-menu.active {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+
+    padding: 14px 20px;
+
+    color: #222;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    transition: 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #F1F1EE;
+    color: #888;
 }
