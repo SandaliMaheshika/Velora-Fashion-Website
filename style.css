@@ -460,7 +460,7 @@ body {
 /* New Arrivals */
 
 .new-arrivals {
-    padding: 200px 7%;
+    padding-top: 55px;
     background-color: #FAFAFA;
 }
 
@@ -948,6 +948,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+     height: 480px;
+    overflow-y: auto;
+
+    padding-right: 5px;
 }
 
 .thumbnail-container img {
@@ -957,13 +962,15 @@ body {
     object-fit: cover;
 
     cursor: pointer;
-
+     flex-shrink: 0;
     border: 1px solid #ddd;
 }
 
 .thumbnail-container img:hover {
     border: 1px solid black;
 }
+
+
 
 .main-product-image {
     flex: 1;
