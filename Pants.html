@@ -432,6 +432,81 @@
 
     </footer>
 
+
+    <!-- Shopping Cart Button -->
+
+    <button class="cart-toggle" id="cartToggle">
+
+        🛍
+
+        <span id="cartCount">0</span>
+
+    </button>
+
+
+    <!-- Order Panel -->
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <aside class="cart-panel" id="cartPanel">
+
+        <div class="cart-header">
+
+            <h2>Your Order</h2>
+
+            <button id="closeCart">&times;</button>
+
+        </div>
+
+
+        <!-- Cart Items -->
+
+        <div class="cart-items" id="cartItems">
+
+            <p class="empty-cart">Your order is empty.</p>
+
+        </div>
+
+
+        <!-- Order Summary -->
+
+        <div class="cart-summary">
+
+            <div>
+                <span>Subtotal</span>
+                <span id="subtotal">Rs. 0.00</span>
+            </div>
+
+            <div>
+                <span>Discount</span>
+                <span id="discount">Rs. 0.00</span>
+            </div>
+
+            <div>
+                <span>Delivery Fee</span>
+                <span id="delivery">Rs. 350.00</span>
+            </div>
+
+            <div class="grand-total">
+
+                <strong>Total</strong>
+
+                <strong id="grandTotal">Rs. 350.00</strong>
+
+            </div>
+
+
+            <button class="checkout-btn" id="checkoutBtn">
+
+                CHECKOUT
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
     <script src="script.js"></script>
 </body>
 

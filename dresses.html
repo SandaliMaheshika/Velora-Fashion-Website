@@ -57,7 +57,7 @@
 
             <button class="icon-btn" title="Search">⌕</button>
             <button class="icon-btn" title="Wishlist">♡</button>
-            <button class="icon-btn" title="Shopping Bag">🛍</button>
+            <button class="icon-btn" id="headerCartBtn" title="Shopping Bag">🛍</button>
 
             <button class="menu-btn" id="menuBtn">☰</button>
 
@@ -103,7 +103,7 @@
                                 Models Height: 5'7" Care Instructions: Hand wash or dry clean only |Do not bleach| Wash
                         and dry with like colors |Do not soak in water or leave wet for a long time to avoid color
                         transfer or discoloration |Tumble dry delicate cycle | Use mild detergent |Wash inside out |
-                        Cool iron if needed | Do not iron decoration>VIEW PRODUCT</button>
+                        Cool iron if needed | Do not iron decoration">VIEW PRODUCT</button>
                 </div>
 
             </div>
@@ -161,7 +161,7 @@
                                 Models Height: 5'7" Care Instructions: Machine wash cold | Delicate cycle ( 30 c ) | Do
                         not bleach | Do not dry clean | wash with like colors | Do not soak Water or leave wet for a
                         long time to avoid color transfer or discoloration | Tumble dry delicate cycle | Warm iron if
-                        needed | Do not iron decoration>VIEW
+                        needed | Do not iron decoration">VIEW
                         PRODUCT</button>
                 </div>
 
@@ -433,6 +433,81 @@
         </div>
 
     </footer>
+
+
+    <!-- Shopping Cart Button -->
+
+    <button class="cart-toggle" id="cartToggle">
+
+        🛍
+
+        <span id="cartCount">0</span>
+
+    </button>
+
+
+    <!-- Order Panel -->
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <aside class="cart-panel" id="cartPanel">
+
+        <div class="cart-header">
+
+            <h2>Your Order</h2>
+
+            <button id="closeCart">&times;</button>
+
+        </div>
+
+
+        <!-- Cart Items -->
+
+        <div class="cart-items" id="cartItems">
+
+            <p class="empty-cart">Your order is empty.</p>
+
+        </div>
+
+
+        <!-- Order Summary -->
+
+        <div class="cart-summary">
+
+            <div>
+                <span>Subtotal</span>
+                <span id="subtotal">Rs. 0.00</span>
+            </div>
+
+            <div>
+                <span>Discount</span>
+                <span id="discount">Rs. 0.00</span>
+            </div>
+
+            <div>
+                <span>Delivery Fee</span>
+                <span id="delivery">Rs. 350.00</span>
+            </div>
+
+            <div class="grand-total">
+
+                <strong>Total</strong>
+
+                <strong id="grandTotal">Rs. 350.00</strong>
+
+            </div>
+
+
+            <button class="checkout-btn" id="checkoutBtn">
+
+                CHECKOUT
+
+            </button>
+
+        </div>
+
+    </aside>
+
 
     <script src="script.js"></script>
 </body>
