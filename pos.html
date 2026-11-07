@@ -28,11 +28,11 @@
             </a>
 
             <a href="customers.html">
-                 Customers
+                Customers
             </a>
 
             <a href="orders.html">
-                 Orders
+                Orders
             </a>
 
             <a href="index.html">
@@ -66,31 +66,31 @@
         <!-- Dashboard Cards -->
         <section class="pos-cards">
 
-    <div class="pos-card">
-        <p>Total Sales</p>
-        <h2 id="totalSales">Rs. 0.00</h2>
-        <span>All Orders</span>
-    </div>
+            <div class="pos-card">
+                <p>Total Sales</p>
+                <h2 id="totalSales">Rs. 0.00</h2>
+                <span>All Orders</span>
+            </div>
 
-    <div class="pos-card">
-        <p>Total Orders</p>
-        <h2 id="totalOrders">0</h2>
-        <span>Customer Orders</span>
-    </div>
+            <div class="pos-card">
+                <p>Total Orders</p>
+                <h2 id="totalOrders">0</h2>
+                <span>Customer Orders</span>
+            </div>
 
-    <div class="pos-card">
-        <p>Total Products</p>
-        <h2>50</h2>
-        <span>Available Products</span>
-    </div>
+            <div class="pos-card">
+                <p>Total Products</p>
+                <h2>50</h2>
+                <span>Available Products</span>
+            </div>
 
-    <div class="pos-card">
-        <p>Total Customers</p>
-        <h2 id="totalCustomers">0</h2>
-        <span>Registered Customers</span>
-    </div>
+            <div class="pos-card">
+                <p>Total Customers</p>
+                <h2 id="totalCustomers">0</h2>
+                <span>Registered Customers</span>
+            </div>
 
-</section>
+        </section>
 
 
         <!-- Recent Orders -->
@@ -129,6 +129,57 @@
         </section>
 
     </main>
+
+
+    <!-- ORDER DETAILS POPUP -->
+
+    <div class="order-modal" id="orderModal">
+
+        <div class="order-modal-content">
+
+            <button class="close-order-modal" id="closeOrderModal">&times;</button>
+
+            <h2>Order Details</h2>
+
+            <div class="order-info">
+                <p><strong>Order ID:</strong> <span id="detailOrderId"></span></p>
+                <p><strong>Order Date:</strong> <span id="detailOrderDate"></span></p>
+                <p><strong>Customer:</strong> <span id="detailCustomerName"></span></p>
+                <p><strong>Phone:</strong> <span id="detailCustomerPhone"></span></p>
+                <p><strong>Email:</strong> <span id="detailCustomerEmail"></span></p>
+                <p><strong>Address:</strong> <span id="detailCustomerAddress"></span></p>
+            </div>
+
+            <h3>Ordered Products</h3>
+
+            <div id="detailProducts"></div>
+
+            <div class="order-total-details">
+                <p>Subtotal: <span id="detailSubtotal"></span></p>
+                <p>Delivery Fee: <span id="detailDelivery"></span></p>
+                <h3>Total: <span id="detailTotal"></span></h3>
+            </div>
+
+            <div class="order-status-update">
+
+                <label>Order Status</label>
+
+                <select id="detailOrderStatus">
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+
+                <button id="updateOrderStatus">Update Status</button>
+
+                <button id="printOrder">Print Order</button>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <script src="script.js"></script>
 </body>

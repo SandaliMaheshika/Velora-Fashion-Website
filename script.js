@@ -761,8 +761,10 @@ if (checkoutForm) {
     });
 
 }
+
+
 // ===============================
-// POS DASHBOARD - DISPLAY ORDERS
+// POS DASHBOARD - DAILY DATA
 // ===============================
 
 const recentOrders = document.getElementById("recentOrders");
@@ -771,79 +773,181 @@ if (recentOrders) {
 
     let orders = JSON.parse(localStorage.getItem("veloraOrders")) || [];
 
-    recentOrders.innerHTML = "";
+    function displayOrders() {
 
-    if (orders.length === 0) {
+        recentOrders.innerHTML = "";
 
-        recentOrders.innerHTML = `
-            <tr>
-                <td colspan="5">No orders available</td>
-            </tr>
-        `;
+        if (orders.length === 0) {
 
-    } else {
-
-        // Display Latest Orders First
-
-        orders.slice().reverse().slice(0, 5).forEach(function (order) {
-
-            recentOrders.innerHTML += `
-
+            recentOrders.innerHTML = `
                 <tr>
-
-                    <td>${order.orderId}</td>
-
-                    <td>${order.customerName}</td>
-
-                    <td>${order.date}</td>
-
-                    <td>Rs. ${Number(order.total).toLocaleString("en-US")}.00</td>
-
-                    <td>${order.status}</td>
-
+                    <td colspan="5">No orders today</td>
                 </tr>
-
             `;
+
+        } else {
+
+            orders.slice().reverse().slice(0, 5).forEach(function (order) {
+
+                let index = orders.indexOf(order);
+
+                recentOrders.innerHTML += `
+                    <tr class="clickable-order" data-index="${index}">
+                        <td>${order.orderId}</td>
+                        <td>${order.customerName}</td>
+                        <td>${order.date}</td>
+                        <td>Rs. ${Number(order.total).toLocaleString("en-US")}.00</td>
+                        <td>${order.status}</td>
+                    </tr>
+                `;
+
+            });
+
+        }
+
+        // Total Orders
+
+        document.getElementById("totalOrders").textContent = orders.length;
+
+        // Total Sales
+
+        let sales = 0;
+
+        orders.forEach(function (order) {
+
+            if (order.status !== "Cancelled") {
+                sales += Number(order.total) || 0;
+            }
+
+        });
+
+        document.getElementById("totalSales").textContent =
+            "Rs. " + sales.toLocaleString("en-US") + ".00";
+
+        // Total Customers
+
+        let customers = [];
+
+        orders.forEach(function (order) {
+
+            if (order.customerPhone &&
+                !customers.includes(order.customerPhone)) {
+
+                customers.push(order.customerPhone);
+
+            }
+
+        });
+
+        document.getElementById("totalCustomers").textContent = customers.length;
+
+    }
+
+    displayOrders();
+
+
+    // OPEN ORDER DETAILS
+
+    const orderModal = document.getElementById("orderModal");
+    const closeOrderModal = document.getElementById("closeOrderModal");
+
+    let selectedOrderIndex = null;
+
+    if (orderModal && closeOrderModal) {
+
+        recentOrders.addEventListener("click", function (event) {
+
+            const row = event.target.closest(".clickable-order");
+
+            if (!row) return;
+
+            selectedOrderIndex = Number(row.dataset.index);
+
+            const order = orders[selectedOrderIndex];
+
+            document.getElementById("detailOrderId").textContent = order.orderId;
+            document.getElementById("detailOrderDate").textContent = order.date;
+            document.getElementById("detailCustomerName").textContent = order.customerName;
+            document.getElementById("detailCustomerPhone").textContent = order.customerPhone;
+            document.getElementById("detailCustomerEmail").textContent = order.customerEmail;
+            document.getElementById("detailCustomerAddress").textContent = order.customerAddress;
+
+            document.getElementById("detailSubtotal").textContent =
+                "Rs. " + Number(order.subtotal).toLocaleString("en-US");
+
+            document.getElementById("detailDelivery").textContent =
+                "Rs. " + Number(order.deliveryFee).toLocaleString("en-US");
+
+            document.getElementById("detailTotal").textContent =
+                "Rs. " + Number(order.total).toLocaleString("en-US");
+
+            document.getElementById("detailOrderStatus").value = order.status;
+
+            const detailProducts = document.getElementById("detailProducts");
+
+            detailProducts.innerHTML = "";
+
+            order.items.forEach(function (item) {
+
+                detailProducts.innerHTML += `
+                    <div class="detail-product">
+
+                        <img src="${item.image}" alt="${item.name}">
+
+                        <div>
+                            <h4>${item.name}</h4>
+                            <p>Size: ${item.size}</p>
+                            <p>Quantity: ${item.quantity}</p>
+                            <p>Price: Rs. ${Number(item.price).toLocaleString("en-US")}</p>
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+            orderModal.classList.add("active");
+
+        });
+
+
+        // CLOSE POPUP
+
+        closeOrderModal.addEventListener("click", function () {
+
+            orderModal.classList.remove("active");
+
+        });
+
+
+        // UPDATE ORDER STATUS
+
+        document.getElementById("updateOrderStatus").addEventListener("click", function () {
+
+            if (selectedOrderIndex === null) return;
+
+            orders[selectedOrderIndex].status =
+                document.getElementById("detailOrderStatus").value;
+
+            localStorage.setItem("veloraOrders", JSON.stringify(orders));
+
+            displayOrders();
+
+            orderModal.classList.remove("active");
+
+            alert("Order status updated successfully!");
+
+        });
+
+
+        // PRINT ORDER
+
+        document.getElementById("printOrder").addEventListener("click", function () {
+
+            window.print();
 
         });
 
     }
 
-
-    // Total Orders
-
-    document.getElementById("totalOrders").textContent = orders.length;
-
-
-    // Total Sales
-
-    let totalSales = 0;
-
-    orders.forEach(function (order) {
-
-        totalSales += Number(order.total);
-
-    });
-
-    document.getElementById("totalSales").textContent =
-        "Rs. " + totalSales.toLocaleString("en-US") + ".00";
-
-
-    // Total Customers
-
-    let customers = [];
-
-    orders.forEach(function (order) {
-
-        if (!customers.includes(order.customerPhone)) {
-
-            customers.push(order.customerPhone);
-
-        }
-
-    });
-
-    document.getElementById("totalCustomers").textContent = customers.length;
-
 }
-

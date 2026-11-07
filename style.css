@@ -1839,3 +1839,118 @@ body {
     }
 
 }
+
+
+/* ORDER DETAILS POPUP */
+
+.order-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.order-modal.active {
+    display: flex;
+}
+
+.order-modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.close-order-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    border: none;
+    background: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.order-modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.order-info p {
+    margin: 12px 0;
+    line-height: 1.5;
+}
+.order-info{
+    text-align: left;
+    padding: 25px 0;
+    
+}
+
+.order-modal-content h3 {
+    margin: 20px 0 12px;
+}
+
+.detail-product {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail-product img {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.detail-product p {
+    margin-top: 5px;
+}
+
+.order-total-details {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+.order-total-details p {
+    margin: 10px 0;
+}
+
+.order-status-update {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.order-status-update select,
+.order-status-update button {
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.order-status-update button {
+    border: none;
+    background: #222;
+    color: white;
+    cursor: pointer;
+}
+
+.clickable-order {
+    cursor: pointer;
+}
+
+.clickable-order:hover {
+    background: #f1f1ee;
+}
