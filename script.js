@@ -654,3 +654,210 @@ function removeItem(index) {
 
 displayCart();
 
+
+
+// ===============================
+// CUSTOMER CHECKOUT
+// ===============================
+
+const checkoutBtn = document.getElementById("checkoutBtn");
+
+if (checkoutBtn) {
+
+    checkoutBtn.addEventListener("click", function () {
+
+        // Check cart is empty
+
+        if (cart.length === 0) {
+
+            alert("Your cart is empty!");
+
+            return;
+
+        }
+
+        // Get Customer Details
+
+        const customerName = prompt("Enter your name:");
+
+        if (!customerName || customerName.trim() === "") {
+
+            alert("Please enter your name!");
+
+            return;
+
+        }
+
+        const customerPhone = prompt("Enter your phone number:");
+
+        if (!customerPhone || customerPhone.trim() === "") {
+
+            alert("Please enter your phone number!");
+
+            return;
+
+        }
+
+
+        // Calculate Total
+
+        let subtotal = 0;
+
+        cart.forEach(function (item) {
+
+            subtotal += Number(item.price) * Number(item.quantity);
+
+        });
+
+        const discount = 0;
+
+        const deliveryFee = 350;
+
+        const total = subtotal - discount + deliveryFee;
+
+
+        // Create Order
+
+        const order = {
+
+            orderId: "VF" + Date.now(),
+
+            customerName: customerName,
+
+            customerPhone: customerPhone,
+
+            date: new Date().toLocaleString(),
+
+            items: [...cart],
+
+            subtotal: subtotal,
+
+            discount: discount,
+
+            deliveryFee: deliveryFee,
+
+            total: total,
+
+            status: "Pending"
+
+        };
+
+
+        // Get Previous Orders
+
+        let orders = JSON.parse(localStorage.getItem("veloraOrders")) || [];
+
+
+        // Add New Order
+
+        orders.push(order);
+
+
+        // Save Orders
+
+        localStorage.setItem("veloraOrders", JSON.stringify(orders));
+
+
+        // Clear Cart
+
+        cart = [];
+
+        saveCart();
+
+
+        // Close Cart
+
+        hideCart();
+
+
+        alert("Your order has been placed successfully!");
+
+    });
+
+}
+
+// ===============================
+// POS DASHBOARD - DISPLAY ORDERS
+// ===============================
+
+const recentOrders = document.getElementById("recentOrders");
+
+if (recentOrders) {
+
+    let orders = JSON.parse(localStorage.getItem("veloraOrders")) || [];
+
+    recentOrders.innerHTML = "";
+
+    if (orders.length === 0) {
+
+        recentOrders.innerHTML = `
+            <tr>
+                <td colspan="5">No orders available</td>
+            </tr>
+        `;
+
+    } else {
+
+        // Display Latest Orders First
+
+        orders.slice().reverse().slice(0, 5).forEach(function (order) {
+
+            recentOrders.innerHTML += `
+
+                <tr>
+
+                    <td>${order.orderId}</td>
+
+                    <td>${order.customerName}</td>
+
+                    <td>${order.date}</td>
+
+                    <td>Rs. ${Number(order.total).toLocaleString("en-US")}.00</td>
+
+                    <td>${order.status}</td>
+
+                </tr>
+
+            `;
+
+        });
+
+    }
+
+
+    // Total Orders
+
+    document.getElementById("totalOrders").textContent = orders.length;
+
+
+    // Total Sales
+
+    let totalSales = 0;
+
+    orders.forEach(function (order) {
+
+        totalSales += Number(order.total);
+
+    });
+
+    document.getElementById("totalSales").textContent =
+        "Rs. " + totalSales.toLocaleString("en-US") + ".00";
+
+
+    // Total Customers
+
+    let customers = [];
+
+    orders.forEach(function (order) {
+
+        if (!customers.includes(order.customerPhone)) {
+
+            customers.push(order.customerPhone);
+
+        }
+
+    });
+
+    document.getElementById("totalCustomers").textContent = customers.length;
+
+}
