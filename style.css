@@ -1413,32 +1413,53 @@ body {
 }
 
 
-/* Quantity */
+/* Checkout Form Display */
 
-.quantity-control {
+.cart-panel {
+    overflow-y: auto;
+}
 
+.checkout-details {
+    display: none;
+    width: 100%;
+    padding: 25px;
+    background: #ffffff;
+    color: #222222;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.checkout-details h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.checkout-details form {
     display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
+    flex-direction: column;
+    gap: 15px;
 }
 
-.quantity-control button {
+.checkout-details input,
+.checkout-details textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cccccc;
+    font-size: 14px;
+}
 
-    width: 25px;
+.checkout-details textarea {
+    min-height: 100px;
+}
 
-    height: 25px;
-
-    border: 1px solid #ddd;
-
-    background: white;
-
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    background: #222222;
+    color: white;
+    border: none;
     cursor: pointer;
-
 }
-
 
 /* Remove Button */
 
@@ -1458,8 +1479,49 @@ body {
     margin-top: 8px;
 
 }
+/* Checkout Customer Details */
 
+.checkout-details {
+    display: none;
+    width: 100%;
+    padding: 25px;
+    background: #ffffff;
+    color: #222;
+    overflow-y: auto;
+}
 
+.checkout-details h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.checkout-details form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.checkout-details input,
+.checkout-details textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.checkout-details textarea {
+    min-height: 100px;
+}
+
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    background: #222;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 /* Order Summary */
 
 .cart-summary {

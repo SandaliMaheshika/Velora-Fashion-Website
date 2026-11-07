@@ -1,3 +1,22 @@
+// DAILY DASHBOARD RESET
+
+let currentDate = new Date();
+
+let todayDate =
+    currentDate.getFullYear() + "-" +
+    String(currentDate.getMonth() + 1).padStart(2, "0") + "-" +
+    String(currentDate.getDate()).padStart(2, "0");
+
+let savedDate = localStorage.getItem("veloraOrdersDate");
+
+if (savedDate !== todayDate) {
+
+    localStorage.setItem("veloraOrders", JSON.stringify([]));
+
+    localStorage.setItem("veloraOrdersDate", todayDate);
+
+}
+
 // Mobile Menu Button
 
 const menuBtn = document.getElementById("menuBtn");
@@ -346,7 +365,7 @@ if (addToBag && productSize) {
         console.log("Price Text:", priceText);
 
         const productPrice = parseFloat(
-            priceText.replace(/Rs\.?/i, "").replace(/,/g, "").trim()
+            priceText.replace("Rs.", "").replace(/,/g, "").trim()
         );
 
         console.log("Converted Price:", productPrice);
@@ -660,122 +679,88 @@ displayCart();
 // CUSTOMER CHECKOUT
 // ===============================
 
+
 const checkoutBtn = document.getElementById("checkoutBtn");
+const checkoutDetails = document.getElementById("checkoutDetails");
+const checkoutForm = document.getElementById("checkoutForm");
+const cartSummary = document.querySelector(".cart-summary");
 
-if (checkoutBtn) {
+if (checkoutBtn && checkoutDetails && cartSummary && cartItems) {
 
-    checkoutBtn.addEventListener("click", function () {
+    checkoutBtn.addEventListener("click", function (event) {
 
-        // Check cart is empty
+        event.preventDefault();
 
         if (cart.length === 0) {
-
             alert("Your cart is empty!");
-
             return;
-
         }
 
-        // Get Customer Details
-
-        const customerName = prompt("Enter your name:");
-
-        if (!customerName || customerName.trim() === "") {
-
-            alert("Please enter your name!");
-
-            return;
-
-        }
-
-        const customerPhone = prompt("Enter your phone number:");
-
-        if (!customerPhone || customerPhone.trim() === "") {
-
-            alert("Please enter your phone number!");
-
-            return;
-
-        }
-
-
-        // Calculate Total
-
-        let subtotal = 0;
-
-        cart.forEach(function (item) {
-
-            subtotal += Number(item.price) * Number(item.quantity);
-
-        });
-
-        const discount = 0;
-
-        const deliveryFee = 350;
-
-        const total = subtotal - discount + deliveryFee;
-
-
-        // Create Order
-
-        const order = {
-
-            orderId: "VF" + Date.now(),
-
-            customerName: customerName,
-
-            customerPhone: customerPhone,
-
-            date: new Date().toLocaleString(),
-
-            items: [...cart],
-
-            subtotal: subtotal,
-
-            discount: discount,
-
-            deliveryFee: deliveryFee,
-
-            total: total,
-
-            status: "Pending"
-
-        };
-
-
-        // Get Previous Orders
-
-        let orders = JSON.parse(localStorage.getItem("veloraOrders")) || [];
-
-
-        // Add New Order
-
-        orders.push(order);
-
-
-        // Save Orders
-
-        localStorage.setItem("veloraOrders", JSON.stringify(orders));
-
-
-        // Clear Cart
-
-        cart = [];
-
-        saveCart();
-
-
-        // Close Cart
-
-        hideCart();
-
-
-        alert("Your order has been placed successfully!");
+        cartItems.style.display = "none";
+        cartSummary.style.display = "none";
+        checkoutDetails.style.display = "block";
 
     });
 
 }
 
+
+// ===============================
+// PLACE ORDER
+// ===============================
+
+if (checkoutForm) {
+
+    checkoutForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        let customerName = document.getElementById("customerName").value;
+        let customerPhone = document.getElementById("customerPhone").value;
+        let customerEmail = document.getElementById("customerEmail").value;
+        let customerAddress = document.getElementById("customerAddress").value;
+
+        let subtotal = 0;
+
+        cart.forEach(function (item) {
+            subtotal += Number(item.price) * Number(item.quantity);
+        });
+
+        let deliveryFee = 350;
+
+        let order = {
+            orderId: "VF" + Date.now(),
+            customerName: customerName,
+            customerPhone: customerPhone,
+            customerEmail: customerEmail,
+            customerAddress: customerAddress,
+            date: new Date().toLocaleString(),
+            items: [...cart],
+            subtotal: subtotal,
+            deliveryFee: deliveryFee,
+            total: subtotal + deliveryFee,
+            status: "Pending"
+        };
+
+        let orders = JSON.parse(localStorage.getItem("veloraOrders")) || [];
+
+        orders.push(order);
+
+        localStorage.setItem("veloraOrders", JSON.stringify(orders));
+
+        cart = [];
+
+        saveCart();
+
+        hideCart();
+
+        alert("Your order has been placed successfully!");
+
+        location.reload();
+
+    });
+
+}
 // ===============================
 // POS DASHBOARD - DISPLAY ORDERS
 // ===============================
@@ -861,3 +846,4 @@ if (recentOrders) {
     document.getElementById("totalCustomers").textContent = customers.length;
 
 }
+
