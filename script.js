@@ -704,7 +704,6 @@ if (checkoutBtn && checkoutDetails && cartSummary && cartItems) {
 
 }
 
-
 // ===============================
 // PLACE ORDER
 // ===============================
@@ -719,6 +718,11 @@ if (checkoutForm) {
         let customerPhone = document.getElementById("customerPhone").value;
         let customerEmail = document.getElementById("customerEmail").value;
         let customerAddress = document.getElementById("customerAddress").value;
+
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
 
         let subtotal = 0;
 
@@ -742,11 +746,74 @@ if (checkoutForm) {
             status: "Pending"
         };
 
+        // SAVE ORDER
+
         let orders = JSON.parse(localStorage.getItem("veloraOrders")) || [];
 
         orders.push(order);
 
         localStorage.setItem("veloraOrders", JSON.stringify(orders));
+
+
+        // DISPLAY CUSTOMER DETAILS
+
+        const confirmationCustomer = document.getElementById("confirmationCustomer");
+        const confirmationProducts = document.getElementById("confirmationProducts");
+        const confirmationTotal = document.getElementById("confirmationTotal");
+        const confirmationModal = document.getElementById("confirmationModal");
+
+        if (!confirmationCustomer || !confirmationProducts ||
+            !confirmationTotal || !confirmationModal) {
+
+            alert("Order confirmation form is missing!");
+
+            return;
+        }
+
+        confirmationCustomer.innerHTML = `
+    <p><strong>Name:</strong> ${order.customerName}</p>
+    <p><strong>Phone:</strong> ${order.customerPhone}</p>
+    <p><strong>Email:</strong> ${order.customerEmail}</p>
+    <p><strong>Address:</strong> ${order.customerAddress}</p>
+    <p><strong>Order ID:</strong> ${order.orderId}</p>
+    <p><strong>Date:</strong> ${order.date}</p>
+`;
+
+
+        // DISPLAY ORDERED PRODUCTS
+
+        confirmationProducts.innerHTML = "";
+
+        order.items.forEach(function (item) {
+
+            confirmationProducts.innerHTML += `
+        <div class="detail-product">
+
+            <img src="${item.image}" alt="${item.name}">
+
+            <div>
+                <h4>${item.name}</h4>
+                <p>Size: ${item.size}</p>
+                <p>Quantity: ${item.quantity}</p>
+                <p>Price: Rs. ${Number(item.price).toLocaleString("en-US")}</p>
+            </div>
+
+        </div>
+    `;
+
+        });
+
+
+        // DISPLAY TOTAL
+
+        confirmationTotal.innerHTML = `
+    <p>Subtotal: Rs. ${Number(order.subtotal).toLocaleString("en-US")}</p>
+    <p>Delivery Fee: Rs. ${Number(order.deliveryFee).toLocaleString("en-US")}</p>
+    <h3>Total: Rs. ${Number(order.total).toLocaleString("en-US")}</h3>
+    <p><strong>Status:</strong> ${order.status}</p>
+`;
+
+        // CLEAR CART
 
         cart = [];
 
@@ -754,15 +821,14 @@ if (checkoutForm) {
 
         hideCart();
 
-        alert("Your order has been placed successfully!");
 
-        location.reload();
+        // SHOW ORDER DETAILS FORM
+
+        document.getElementById("confirmationModal").classList.add("active");
 
     });
 
 }
-
-
 // ===============================
 // POS DASHBOARD - DAILY DATA
 // ===============================
@@ -949,5 +1015,55 @@ if (recentOrders) {
         });
 
     }
+
+}
+
+
+
+// CONTINUE SHOPPING BUTTON
+
+const closeConfirmation = document.getElementById("closeConfirmation");
+
+if (closeConfirmation) {
+
+    closeConfirmation.addEventListener("click", function () {
+
+        // Close confirmation form
+        document.getElementById("confirmationModal").classList.remove("active");
+
+        // Reset checkout form
+        if (checkoutForm) {
+            checkoutForm.reset();
+        }
+
+        // Show cart items and summary again
+        if (cartItems) {
+            cartItems.style.display = "block";
+        }
+
+        if (cartSummary) {
+            cartSummary.style.display = "block";
+        }
+
+        // Hide customer details form
+        if (checkoutDetails) {
+            checkoutDetails.style.display = "none";
+        }
+
+        // Go to collections section
+        const collections = document.getElementById("collections");
+
+        if (collections) {
+            collections.scrollIntoView({
+                behavior: "smooth"
+            });
+        } else {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+    });
 
 }
