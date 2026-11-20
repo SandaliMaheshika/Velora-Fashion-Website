@@ -23,6 +23,10 @@
                 Dashboard
             </a>
 
+            <a href="pos.html#customerManagement">
+                Customers
+            </a>
+
             <a href="dresses.html">
                 Products
             </a>
@@ -120,6 +124,79 @@
 
         </section>
 
+
+        <!-- CUSTOMER MANAGEMENT -->
+
+        <section class="customer-management" id="customerManagement">
+
+            <div class="customer-header">
+
+                <div>
+                    <h2>Customer Management</h2>
+                    <p>Manage your fashion store customers</p>
+                </div>
+
+            </div>
+
+
+            <!-- Add Customer Form -->
+
+            <div class="customer-form">
+
+                <h3 id="customerFormTitle">Add New Customer</h3>
+
+                <form id="customerForm">
+
+                    <input type="text" id="customerName" placeholder="Customer Name" required>
+
+                    <input type="tel" id="customerPhone" placeholder="Phone Number" required>
+
+                    <input type="email" id="customerEmail" placeholder="Email Address" required>
+
+                    <input type="text" id="customerAddress" placeholder="Address" required>
+
+                    <button type="submit" id="customerSubmitBtn">
+                        Add Customer
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- Customer Table -->
+
+            <div class="customer-table-section">
+
+                <h3>All Customers</h3>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="customerTableBody">
+
+                        <tr>
+                            <td colspan="6">No customers available</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
     </main>
 
 
@@ -172,8 +249,6 @@
         </div>
 
     </div>
-
-    
 
     <script src="script.js"></script>
 </body>

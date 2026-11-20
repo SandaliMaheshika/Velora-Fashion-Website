@@ -1067,3 +1067,227 @@ if (closeConfirmation) {
     });
 
 }
+
+// CUSTOMER MANAGEMENT
+
+const customerForm = document.getElementById("customerForm");
+
+const customerTableBody = document.getElementById("customerTableBody");
+
+const customerSubmitBtn = document.getElementById("customerSubmitBtn");
+
+const customerFormTitle = document.getElementById("customerFormTitle");
+
+let customers = JSON.parse(localStorage.getItem("veloraCustomers")) || [];
+
+let editCustomerId = null;
+
+
+// Save customers
+
+function saveCustomers() {
+
+    localStorage.setItem("veloraCustomers", JSON.stringify(customers));
+
+}
+
+
+// Display customers
+
+function displayCustomers() {
+
+    customerTableBody.innerHTML = "";
+
+    if (customers.length === 0) {
+
+        customerTableBody.innerHTML = `
+            <tr>
+                <td colspan="6">No customers available</td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    customers.forEach(function (customer) {
+
+        const row = document.createElement("tr");
+
+        const values = [
+            customer.id,
+            customer.name,
+            customer.phone,
+            customer.email,
+            customer.address
+        ];
+
+        values.forEach(function (value) {
+
+            const cell = document.createElement("td");
+
+            cell.textContent = value;
+
+            row.appendChild(cell);
+
+        });
+
+        const actionCell = document.createElement("td");
+
+        actionCell.innerHTML = `
+            <button class="edit-customer"
+                onclick="editCustomer(${customer.id})">
+                Edit
+            </button>
+
+            <button class="delete-customer"
+                onclick="deleteCustomer(${customer.id})">
+                Delete
+            </button>
+        `;
+
+        row.appendChild(actionCell);
+
+        customerTableBody.appendChild(row);
+
+    });
+
+}
+
+
+// Add or Update Customer
+
+customerForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("customerName").value.trim();
+
+    const phone = document.getElementById("customerPhone").value.trim();
+
+    const email = document.getElementById("customerEmail").value.trim();
+
+    const address = document.getElementById("customerAddress").value.trim();
+
+
+    if (editCustomerId === null) {
+
+        const newCustomer = {
+
+            id: Date.now(),
+            name: name,
+            phone: phone,
+            email: email,
+            address: address
+
+        };
+
+        customers.push(newCustomer);
+
+        alert("Customer added successfully!");
+
+    } else {
+
+        customers = customers.map(function (customer) {
+
+            if (customer.id === editCustomerId) {
+
+                return {
+                    id: customer.id,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    address: address
+                };
+
+            }
+
+            return customer;
+
+        });
+
+        alert("Customer updated successfully!");
+
+        editCustomerId = null;
+
+    }
+
+    saveCustomers();
+
+    displayCustomers();
+
+    customerForm.reset();
+
+    customerSubmitBtn.textContent = "Add Customer";
+
+    customerFormTitle.textContent = "Add New Customer";
+
+});
+
+
+// Edit Customer
+
+function editCustomer(id) {
+
+    const customer = customers.find(function (customer) {
+
+        return customer.id === id;
+
+    });
+
+    if (customer) {
+
+        document.getElementById("customerName").value = customer.name;
+
+        document.getElementById("customerPhone").value = customer.phone;
+
+        document.getElementById("customerEmail").value = customer.email;
+
+        document.getElementById("customerAddress").value = customer.address;
+
+        editCustomerId = id;
+
+        customerSubmitBtn.textContent = "Update Customer";
+
+        customerFormTitle.textContent = "Edit Customer";
+
+        document.getElementById("customerManagement").scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+// Delete Customer
+
+function deleteCustomer(id) {
+
+    const confirmDelete = confirm("Are you sure you want to delete this customer?");
+
+    if (confirmDelete) {
+
+        customers = customers.filter(function (customer) {
+
+            return customer.id !== id;
+
+        });
+
+        saveCustomers();
+
+        displayCustomers();
+
+        alert("Customer deleted successfully!");
+
+    }
+
+}
+
+
+// Display saved customers when page loads
+
+if (customerForm && customerTableBody) {
+
+    displayCustomers();
+
+}
