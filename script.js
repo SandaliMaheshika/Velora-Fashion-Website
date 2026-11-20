@@ -1086,9 +1086,7 @@ let editCustomerId = null;
 // Save customers
 
 function saveCustomers() {
-
     localStorage.setItem("veloraCustomers", JSON.stringify(customers));
-
 }
 
 
